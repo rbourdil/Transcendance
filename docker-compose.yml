@@ -1,0 +1,25 @@
+services:
+    postgres:
+        image: postgres:bullseye
+        container_name: nest-db
+        networks:
+            - mynet
+        environment:
+            - POSTGRES_PASSWORD=qwerty
+    nestjs:
+        image: node:bullseye
+        stdin_open: true
+        ports:
+            - 3000:3000
+            - 5555:5555
+        volumes:
+            - ./transcendance:/workspace
+        networks:
+            - mynet
+        depends_on:
+            postgres:
+                restart: true
+                condition: service_started
+
+networks:
+     mynet:
