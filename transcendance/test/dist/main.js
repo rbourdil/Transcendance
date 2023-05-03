@@ -9,7 +9,6 @@ async function bootstrap() {
     app.enableCors();
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,
-        transform: true,
     }));
     const { httpAdapter } = app.get(core_1.HttpAdapterHost);
     app.useGlobalFilters(new nestjs_prisma_1.PrismaClientExceptionFilter(httpAdapter));

@@ -17,10 +17,19 @@ const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 let AuthController = class AuthController {
     async auth42(req) {
-        return req.user;
+        console.log('first get');
     }
-    async auth42Callback() {
-        console.log('here');
+    async auth42Callback(req) {
+        if (req.user) {
+            return {
+                url: "https://www.cmpbois.com/",
+            };
+        }
+        else {
+            return {
+                url: "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal",
+            };
+        }
     }
 };
 __decorate([
@@ -32,10 +41,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "auth42", null);
 __decorate([
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('42')),
+    (0, common_1.Redirect)(),
     (0, common_1.Get)('42/callback'),
+    __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "auth42Callback", null);
 AuthController = __decorate([

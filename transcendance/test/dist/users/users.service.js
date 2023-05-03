@@ -17,19 +17,21 @@ let UsersService = class UsersService {
         this.prisma = prisma;
     }
     async getUser(id) {
-        console.log(id);
+        return this.prisma.user.findUnique({
+            where: id,
+        });
+    }
+    async getUserThrow(id) {
         return this.prisma.user.findUniqueOrThrow({
             where: id,
         });
     }
     async createUser(data) {
-        console.log(data);
         return this.prisma.user.create({
             data,
         });
     }
     async deleteUser(id) {
-        console.log(id);
         return this.prisma.user.delete({
             where: id,
         });

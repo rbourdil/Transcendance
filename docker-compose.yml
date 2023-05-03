@@ -17,9 +17,7 @@ services:
         networks:
             - mynet
         depends_on:
-            postgres:
-                restart: true
-                condition: service_started
+            - postgres
 
 networks:
      mynet:

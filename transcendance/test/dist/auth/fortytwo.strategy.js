@@ -17,9 +17,9 @@ const users_service_1 = require("../users/users.service");
 let FortyTwoStrategy = class FortyTwoStrategy extends (0, passport_1.PassportStrategy)(passport_42_1.Strategy) {
     constructor(usersService) {
         super({
-            clientID: "u-s4t2ud-66eb43c67b39b9d36711e2f81ccda62ed7dd6d97518b3df88e71de5a7d102618",
-            clientSecret: "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",
-            callbackURL: "http://localhost:3000",
+            clientID: "u-s4t2ud-22deb755384322a2cb57f9a84598fa679819ff6a73acef2f7cc573c8b5e22e15",
+            clientSecret: "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",
+            callbackURL: "http://localhost:3000/auth/42/callback",
             profileFields: {
                 'username': 'login',
                 'profileUrl': 'url',
@@ -27,8 +27,18 @@ let FortyTwoStrategy = class FortyTwoStrategy extends (0, passport_1.PassportStr
         });
         this.usersService = usersService;
     }
-    async validate(accessToken, refreshToken, profile, cb) {
-        const user = await this.usersService.createUser(profile);
+    async validate(accessToken, refreshToken, profile) {
+        const { username, profileUrl } = profile;
+        const userInfo = {
+            login: username,
+            nickname: username,
+            avatarURL: profileUrl,
+        };
+        let user = await this.usersService.getUser({ login: userInfo.login });
+        if (!user) {
+            user = await this.usersService.createUser(userInfo);
+        }
+        console.log('validate');
         return user;
     }
 };
