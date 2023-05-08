@@ -1,6 +1,6 @@
 import { Strategy, VerifyCallback } from 'passport-42';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
@@ -18,6 +18,7 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(accessToken: string, refreshToken: string, profile: any): Promise<any> {
+        console.log('validate');
         const { username, profileUrl } = profile;
         const userInfo = {
             login: username,
@@ -28,7 +29,6 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy) {
         if (!user) { // if no user is found with this login
             user = await this.usersService.createUser( userInfo );
         }
-        console.log('validate');
         return user;
     }
 

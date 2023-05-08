@@ -28,6 +28,7 @@ let FortyTwoStrategy = class FortyTwoStrategy extends (0, passport_1.PassportStr
         this.usersService = usersService;
     }
     async validate(accessToken, refreshToken, profile) {
+        console.log('validate');
         const { username, profileUrl } = profile;
         const userInfo = {
             login: username,
@@ -38,7 +39,6 @@ let FortyTwoStrategy = class FortyTwoStrategy extends (0, passport_1.PassportStr
         if (!user) {
             user = await this.usersService.createUser(userInfo);
         }
-        console.log('validate');
         return user;
     }
 };

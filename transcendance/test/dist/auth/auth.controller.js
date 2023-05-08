@@ -14,22 +14,17 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
+const auth_service_1 = require("./auth.service");
 const passport_1 = require("@nestjs/passport");
 let AuthController = class AuthController {
+    constructor(authService) {
+        this.authService = authService;
+    }
     async auth42(req) {
         console.log('first get');
     }
     async auth42Callback(req) {
-        if (req.user) {
-            return {
-                url: "https://www.cmpbois.com/",
-            };
-        }
-        else {
-            return {
-                url: "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal",
-            };
-        }
+        return this.authService.login(req.user);
     }
 };
 __decorate([
@@ -41,7 +36,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "auth42", null);
 __decorate([
-    (0, common_1.Redirect)(),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('42')),
     (0, common_1.Get)('42/callback'),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
@@ -49,7 +44,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "auth42Callback", null);
 AuthController = __decorate([
-    (0, common_1.Controller)('auth')
+    (0, common_1.Controller)('auth'),
+    __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 exports.AuthController = AuthController;
 //# sourceMappingURL=auth.controller.js.map
